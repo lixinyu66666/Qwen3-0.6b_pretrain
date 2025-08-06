@@ -1,0 +1,18 @@
+name: qwen3pretrain
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10          
+  - pip                  
+  - ipykernel            
+  - numpy                
+  - typing-extensions    
+  - pip:
+      - torch==2.5.0+cu121
+      - torchvision==0.20.0+cu121
+      - torchaudio==2.5.0+cu121
+      - sentencepiece
+      - transformers
+      - tiktoken
+      - datasets

@@ -1,3 +1,4 @@
 checkpoints/
-data/
+/data/processed/
+/data/raw/
 logs/
