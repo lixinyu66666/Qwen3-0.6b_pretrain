@@ -11,7 +11,10 @@ Usage:
 """
 
 import argparse, os, sentencepiece as spm
-from tokenizers import SentencePieceBPETokenizer
+from tokenizers import SentencePieceBPETokenizer, Tokenizer
+from tokenizers.models import BPE
+from tokenizers.trainers import BpeTrainer
+from tokenizers.pre_tokenizers import Whitespace
 from transformers import PreTrainedTokenizerFast
 
 def main():
@@ -22,33 +25,26 @@ def main():
     args = ap.parse_args()
 
     os.makedirs(args.out_dir, exist_ok=True)
-    model_prefix = os.path.join(args.out_dir, "qwen3")
+    backend = Tokenizer(BPE(unk_token="<unk>"))
+    backend.pre_tokenizer = Whitespace()
 
-    # spm.SentencePieceTrainer.train(
-    #     input=args.input,
-    #     model_prefix=model_prefix,
-    #     vocab_size=args.vocab_size,
-    #     model_type="bpe",
-    #     character_coverage=0.9995,
-    #     user_defined_symbols=["<|endoftext|>", "<|im_start|>", "<|im_end|>"]
-    # )
-
-    tok = SentencePieceBPETokenizer()
-    tok.train(
-        files=[args.input],
-        special_tokens=["<|endoftext|>", "<|im_start|>", "<|im_end|>"],
+    trainer = BpeTrainer(
+        vocab_size=args.vocab_size,
+        min_frequency=2,
+        special_tokens=["<unk>", "<pad>", "<|endoftext|>", "<|im_start|>", "<|im_end|>"],
+        show_progress=True,
     )
+    backend.train([args.input], trainer=trainer)
 
-    tok_json_path = os.path.join(args.out_dir, "tokenizer.json")
-    tok.save(tok_json_path)
+    tok_json = os.path.join(args.out_dir, "tokenizer.json")
+    backend.save(tok_json)
 
     hf_tok = PreTrainedTokenizerFast(
-        tokenizer_file=tok_json_path,
+        tokenizer_file=tok_json,
         unk_token="<unk>",
         pad_token="<pad>",
         eos_token="<|endoftext|>",
-        add_bos_token=False,
-        add_eos_token=False,
+        additional_special_tokens=["<|im_start|>", "<|im_end|>"],
     )
 
     hf_tok.model_max_length = 32768

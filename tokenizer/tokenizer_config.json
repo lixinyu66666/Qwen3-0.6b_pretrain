@@ -1,32 +1,6 @@
 {
-  "add_bos_token": false,
-  "add_eos_token": false,
   "added_tokens_decoder": {
     "0": {
-      "content": "<|endoftext|>",
-      "lstrip": false,
-      "normalized": false,
-      "rstrip": false,
-      "single_word": false,
-      "special": true
-    },
-    "1": {
-      "content": "<|im_start|>",
-      "lstrip": false,
-      "normalized": false,
-      "rstrip": false,
-      "single_word": false,
-      "special": true
-    },
-    "2": {
-      "content": "<|im_end|>",
-      "lstrip": false,
-      "normalized": false,
-      "rstrip": false,
-      "single_word": false,
-      "special": true
-    },
-    "30000": {
       "content": "<unk>",
       "lstrip": false,
       "normalized": false,
@@ -34,8 +8,32 @@
       "single_word": false,
       "special": true
     },
-    "30001": {
+    "1": {
       "content": "<pad>",
+      "lstrip": false,
+      "normalized": false,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
+    },
+    "2": {
+      "content": "<|endoftext|>",
+      "lstrip": false,
+      "normalized": false,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
+    },
+    "3": {
+      "content": "<|im_start|>",
+      "lstrip": false,
+      "normalized": false,
+      "rstrip": false,
+      "single_word": false,
+      "special": true
+    },
+    "4": {
+      "content": "<|im_end|>",
       "lstrip": false,
       "normalized": false,
       "rstrip": false,
@@ -43,6 +41,10 @@
       "special": true
     }
   },
+  "additional_special_tokens": [
+    "<|im_start|>",
+    "<|im_end|>"
+  ],
   "clean_up_tokenization_spaces": false,
   "eos_token": "<|endoftext|>",
   "extra_special_tokens": {},

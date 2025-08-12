@@ -2,3 +2,4 @@ checkpoints/
 /data/processed/
 /data/raw/
 logs/
+nohup.out
