@@ -7,6 +7,7 @@ from torch.optim import AdamW
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from src.data.packed_ds import NpzPackedDataset, simple_collate
+from src.utils.utils import load_yaml
 import argparse
 
 def parse_args():
@@ -15,10 +16,6 @@ def parse_args():
     ap.add_argument("--train_config", default="configs/train/debug.yaml")
     args = ap.parse_args()
     return args
-
-def load_yaml(path):
-    with open(path, "r") as f:
-        return yaml.safe_load(f)
 
 def main():
     args = parse_args()

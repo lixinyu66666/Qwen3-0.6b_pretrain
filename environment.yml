@@ -16,3 +16,5 @@ dependencies:
       - transformers
       - tiktoken
       - datasets==2.18.0
+      - accelerate
+      - deepspeed
