@@ -1,5 +1,7 @@
 checkpoints/
 /data/processed/
 /data/raw/
+/data/packed
 logs/
 nohup.out
+__pycache__

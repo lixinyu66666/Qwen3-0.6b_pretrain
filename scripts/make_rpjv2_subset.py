@@ -22,7 +22,7 @@ import json
 
 disable_caching()
 
-LANG_SHARE = {"en": 0.70, "de": 0.075, "fr": 0.075, "es": 0.075, "it": 0.075}
+# LANG_SHARE = {"en": 0.70, "de": 0.075, "fr": 0.075, "es": 0.075, "it": 0.075}
 DEFAULT_PARTITION = "head_middle"
 DEFAULT_NAME = "default"
 
@@ -32,8 +32,8 @@ def accept(sample):
         return False, None, None
     
     lang = get_lang(sample)
-    if lang not in LANG_SHARE:
-        return False, None, None
+    # if lang not in LANG_SHARE:
+    #     return False, None, None
     
     qs = sample.get("quality_signals")
     qs = json.loads(qs)
@@ -78,7 +78,7 @@ def main():
     )
 
     token_total, shard_token_cnt = 0, 0
-    lang_counter = {k: 0 for k in LANG_SHARE}
+    # lang_counter = {k: 0 for k in LANG_SHARE}
     shard_id, buffer = 0, []
 
     pbar = tqdm(stream_ds, desc="collect", unit="docs")
@@ -93,7 +93,7 @@ def main():
         n_tok = len(tokenizer.encode(text, add_special_tokens=False))
         token_total += n_tok
         shard_token_cnt += n_tok
-        lang_counter[lang] += n_tok
+        # lang_counter[lang] += n_tok
         buffer.append({"text": text, "lang": lang})
 
         pbar.set_postfix(
