@@ -8,7 +8,7 @@ Usage (3x4090 example):
     --deepspeed configs/deepseed/zero3_bf16.json \
     scripts/train_accel.py \
     --model_config configs/model/qwen3_0.6b.json \
-    --train_config configs/train/12B_tokens.yaml \
+    --train_config configs/train/6B_tokens.yaml \
     --tokenizer_dir tokenizer
 """
 
@@ -31,7 +31,7 @@ import argparse
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model_config", default="configs/model/qwen3_0.6b.json", help="Path to model configuration file.")
-    ap.add_argument("--train_config", default="configs/train/12B_tokens.yaml", help="Path to training configuration file.")
+    ap.add_argument("--train_config", default="configs/train/6B_tokens.yaml", help="Path to training configuration file.")
     ap.add_argument("--tokenizer_dir", default="tokenizer", help="Directory containing the tokenizer.")
     ap.add_argument("--resume", default=None, help="Path to a checkpoint to resume training from.")
     args = ap.parse_args()

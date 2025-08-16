@@ -95,8 +95,9 @@ def process_one_source(
 
     while total_tok < target_tokens:
         try:
-            lang_, txt = next(it)  # 获取下一个文本样本
+            lang_, txt = next(it)  
         except StopIteration:
+            print(f"[{key}] dataset exhausted.")
             break
 
         n_tok = len(tokenizer.encode(txt, add_special_tokens=False))
