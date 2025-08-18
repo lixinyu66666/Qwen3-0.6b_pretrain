@@ -107,7 +107,7 @@ def main():
     optim = AdamW(
         model.parameters(),
         lr=lr,
-        betas=betas,
+        betas=tuple(betas),
         weight_decay=weight_decay,
     )
     sched = get_cosine_schedule_with_warmup(
@@ -141,7 +141,13 @@ def main():
         
         if (step % save_steps == 0 or step == max_steps) and accelerator.is_main_process:
             save_path = os.path.join(save_dir, f"step-{step:07d}")
-            accelerator.unwrap_model(model).save_pretrained(save_path)
+            state_dict = accelerator.get_state_dict(model)
+            accelerator.unwrap_model(model).save_pretrained(
+                save_path,
+                state_dict=state_dict,
+                safe_serialization=True,
+                )
+            
             tokenizer.save_pretrained(save_path)
             torch.save(
                 {
