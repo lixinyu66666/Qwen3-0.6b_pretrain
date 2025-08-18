@@ -5,7 +5,8 @@ num_machines: 1
 machine_rank: 0
 gpu_ids: "0,1,2"
 
-mixed_precision: bf16     
+mixed_precision: bf16
+zero3_save_16bit_model: true     
 
 deepspeed_config:
   zero_stage: 3
