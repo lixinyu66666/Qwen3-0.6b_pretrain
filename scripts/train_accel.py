@@ -141,12 +141,14 @@ def main():
         
         if (step % save_steps == 0 or step == max_steps) and accelerator.is_main_process:
             save_path = os.path.join(save_dir, f"step-{step:07d}")
-            state_dict = accelerator.get_state_dict(model)
-            accelerator.unwrap_model(model).save_pretrained(
-                save_path,
-                state_dict=state_dict,
-                safe_serialization=True,
-                )
+            engine_or_model = accelerator.unwrap_model(model)
+            if hasattr(engine_or_model, "save_checkpoint"):
+                # ZeRO-3 sharded save: no 16-bit weight gathering -> avoids heavy comms
+                engine_or_model.save_checkpoint(save_path)
+            else:
+                # Fallback when not using ZeRO-3
+                engine_or_model.save_pretrained(save_path, safe_serialization=True)
+
             
             tokenizer.save_pretrained(save_path)
             torch.save(

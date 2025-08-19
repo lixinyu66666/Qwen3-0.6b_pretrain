@@ -16,6 +16,7 @@ deepspeed_config:
   overlap_comm: true
   contiguous_gradients: true
   zero3_save_16bit_model: true
+  stage3_gather_16bit_weights_on_model_save: true
 
   gradient_accumulation_steps: 1
   steps_per_print: 100
