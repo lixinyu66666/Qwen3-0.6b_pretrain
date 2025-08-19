@@ -35,7 +35,10 @@ def main():
     )
     model.eval()
 
-    inputs = tok(args.prompt, return_tensors="pt").to(device)
+    inputs = tok(args.prompt, return_tensors="pt")
+    inputs.pop("token_type_ids", None)  # Remove token_type_ids if present
+    inputs = {k: v.to(device) for k, v in inputs.items()}
+    
     with torch.no_grad():
         outputs = model.generate(
             **inputs,

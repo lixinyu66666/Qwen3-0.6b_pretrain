@@ -6,7 +6,5 @@ export TORCH_NCCL_ENABLE_MONITORING=0
 export TORCH_NCCL_HEARTBEAT_TIMEOUT_SEC=1200
 
 nohup accelerate launch \
-  --num_processes 3 \
-  --gpu_ids 0,1,2 \
-  --config_file configs/deepspeed/zero3_bf16.yaml \
+  --config_file configs/accelerate/zero3_bf16.yaml \
   scripts/train_accel.py > logs/train_qwen3_0.6b.log 2>&1 &

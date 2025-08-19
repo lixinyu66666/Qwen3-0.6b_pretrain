@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from typing import Optional, Dict, Any
 
 from torch.utils.data import DataLoader
-from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, GenerationConfig
 from transformers.optimization import get_cosine_schedule_with_warmup
 from tqdm import tqdm
 from accelerate import Accelerator
@@ -139,27 +139,32 @@ def main():
             print(f"step {step:7d} | loss {running/log_steps:.4f} | tokens/step ~ {toks}")
             running = 0.0
         
-        if (step % save_steps == 0 or step == max_steps) and accelerator.is_main_process:
+        if (step % save_steps == 0 or step == max_steps):
             save_path = os.path.join(save_dir, f"step-{step:07d}")
-            engine_or_model = accelerator.unwrap_model(model)
-            if hasattr(engine_or_model, "save_checkpoint"):
-                # ZeRO-3 sharded save: no 16-bit weight gathering -> avoids heavy comms
-                engine_or_model.save_checkpoint(save_path)
-            else:
-                # Fallback when not using ZeRO-3
-                engine_or_model.save_pretrained(save_path, safe_serialization=True)
+            os.makedirs(save_path, exist_ok=True)
 
-            
-            tokenizer.save_pretrained(save_path)
-            torch.save(
-                {
-                "optimizer": optim.state_dict(),
-                "scheduler": sched.state_dict(),
-                "step": step,
-                },
-                os.path.join(save_path, "trainer_state.pt"),
+            state_dict = accelerator.get_state_dict(model)
+            accelerator.unwrap_model(model).save_pretrained(
+                save_path,
+                state_dict=state_dict,
+                safe_serialization=True
             )
-            print(f"[save] model and tokenizer saved to {save_path}")
+
+            if accelerator.is_main_process:
+                tokenizer.save_pretrained(save_path)
+                gen_cfg = GenerationConfig.from_model_config(
+                    accelerator.unwrap_model(model).config
+                )
+                gen_cfg.save_pretrained(save_path)
+                torch.save(
+                    {
+                    "optimizer": optim.state_dict(),
+                    "scheduler": sched.state_dict(),
+                    "step": step,
+                    },
+                    os.path.join(save_path, "trainer_state.pt"),
+                )
+                print(f"[save] model and tokenizer saved to {save_path}")
     
     if accelerator.is_main_process:
         print("Training complete.")
