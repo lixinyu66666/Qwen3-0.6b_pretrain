@@ -258,6 +258,53 @@ logging_interval: 10
 - Data loading performance analysis
 - Memory leak detection
 
+## Results
+
+This section shows the performance and output examples of our trained Qwen3-0.6b model across different evaluation metrics and inference tasks.
+
+### Training loss curve
+![Training loss curve](results/loss.png)
+
+
+### Quick Inference Results
+
+Quick inference test on sample prompts:
+
+```
+Input: "Write a short poem about stars."
+Output: "Write a short poem about stars . In fact , I wanted to write about the effects of the mon ot ony and the role of the ancient Gree ks in the modern world . But it was quite complicated : even if we were creating a story that didn ’ t get published in print in the 1970s , we would have been able to do what we could to survive in the same place . So we had to move on – there were different ways that we could turn the myth into a narrative . The words came from the Greek word for sky , which is derived from the Greek word for the star , and the Greek word for the hero . It was also known as the Ancient Greek"
+```
+
+### Perplexity Evaluation Results
+
+Model performance on standard benchmarks:
+
+```
+Dataset: wikitext-2-raw-v1
+Perplexity: 34.96821452930913
+```
+
+### Sanity Generation Results
+
+Basic text generation quality check:
+
+```json
+{"prompt:": "Write a short poem about stars.", "output": "Write a short poem about stars . In fact , I wanted to write about the effects of the mon ot ony and the role of the ancient Gree ks in the modern world . But it was quite complicated : even if we were creating a story that didn ’ t get published in print in the 1970s , we would have been able to do what we could to survive in the same place . So we had to move on – there were different ways that we could turn the myth into a narrative . The words came from the Greek word for sky , which is derived from the Greek word for the star , and the Greek word for the hero . It was also known as the Ancient Greek", "sec": 7.4544, "distinct_1": 0.6518518518518519, "distinct_2": 0.9029850746268657}
+{"prompt:": "Explain the theory of relativity in simple terms.", "output": "Ex plain the theory of rel ativity in simple terms . In other words , if you can ' t get it right ( and I don ' t know how many times people get it wrong ), then you have to look at all the possible solutions . I do think that the best way to solve this problem is to have an answer . I hope you understand the method I used and this way of solving it . If you are going to be a bit more accurate about the process of making statements like \" it ' s not necessarily what you want \". And if you are going to be willing to try it , then you should have a real opportunity to start doing what you want . Some one please explain what", "sec": 5.3217, "distinct_1": 0.6474820143884892, "distinct_2": 0.9202898550724637}
+{"prompt:": "What are the benefits of regular exercise?", "output": "What are the benefits of regular exercise ? I don ' t know , but it seems to me that exercise is a technique for dealing with stress , not just a place for a stress ful one . It ' s also used in men ' s and women ' s exercise . They have to use physical activity as a way to keep the stress level up . I don ' t think it works , unless there ' s something else you can do that ' s necessary . But I think if you have physical activity you need to have a healthy exercise plan . You ' re not going to get any benefit from exercise if you don ' t have physical activity ( which is a very good thing ).", "sec": 5.3314, "distinct_1": 0.5808823529411765, "distinct_2": 0.8962962962962963}
+{"prompt:": "Describe a futuristic city.", "output": "Des cri be a fut ur istic city . It is also a little more complex than the first city , with many streets and streets being built around the city center . The main street and the pedestrian road from the east to the west , are divided into four sections , each of which has some traffic lights . There are three streets in this section , as well as another section , built on the western side of the street , called the \" C oney Island \". They consist of many small buildings and structures . At the eastern end of the street there is a tri angle with the central square , with several large buildings , called the \" Col um bo Theatre \". The Col um bo Theatre was constructed", "sec": 5.3281, "distinct_1": 0.6277372262773723, "distinct_2": 0.9264705882352942}
+```
+
+### Generation Performance Benchmark
+
+Comprehensive performance metrics:
+
+```
+avg_latency_s=5.237  avg_tokens_per_s=24.4
+peak_cuda_mem_GB=0.31
+```
+
+
 ## FAQ
 
 ### Q: How to adjust model size?
