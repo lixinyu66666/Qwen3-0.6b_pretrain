@@ -9,7 +9,7 @@ Usage example (target 9B tokens, ~1e8 tokens per shard, see --mix for default ra
   python scripts/prepare_multi_corpus.py \
     --target_tokens 9e9 \
     --shard_tokens 1e8 \
-    --out_dir data/processed/mixed_9B_arrow \
+    --out_dir data/processed \
     --tokenizer_dir tokenizer \
     --mix "wiki_en=0.55,rpjv2_small_en=0.2,wiki_zh=0.15,wiki_tw=0.05,stackoverflow_en=0.05"
 
